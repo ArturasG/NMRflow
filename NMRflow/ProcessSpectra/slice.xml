@@ -2,7 +2,7 @@
 <tool id="slice" name="Slice" version="0.0.1">
     <description> NMR spectra </description>
     <command interpreter="Rscript">
-        RTools/SliceSpectra.R --input=$input --output=$output --retainPpm=$retain
+        SliceSpectra.R --input=$input --output=$output --retainPpm=$retain
     </command>
 
     <inputs>

@@ -3,9 +3,9 @@
     <description></description>
     <command interpreter="Rscript">
         #if $method_choice.method == "refPeak"
-            RTools/Normalise.R --input=$input --output=$output --type=$method_choice.method --param=$method_choice.param
+            Normalise.R --input=$input --output=$output --type=$method_choice.method --param=$method_choice.param
         #else
-            RTools/Normalise.R --input=$input --output=$output --type=$method_choice.method
+            Normalise.R --input=$input --output=$output --type=$method_choice.method
         #end if
     </command>
 

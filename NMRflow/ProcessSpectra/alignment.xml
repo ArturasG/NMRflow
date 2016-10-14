@@ -2,7 +2,7 @@
 <tool id="align" name="Spectra alignment" version="0.0.1">
     <description> </description>
     <command interpreter="Rscript">
-        RTools/Align.R --inData=$input --inPeaks=$peaks --output=$output
+        Align.R --inData=$input --inPeaks=$peaks --output=$output
     </command>
 
     <inputs>

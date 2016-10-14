@@ -2,7 +2,7 @@
 <tool id="peakpick" name="Peak picking" version="0.0.1">
     <description> </description>
     <command interpreter="Rscript">
-        RTools/PeakPick.R --input=$input --output=$output
+        PeakPick.R --input=$input --output=$output
     </command>
 
     <inputs>

@@ -3,11 +3,11 @@
     <description> (Bucketing) </description>
     <command interpreter="Rscript">
         #if $method_choice.method == "uniform"
-            RTools/BinSpectra.R --input=$input --output=$output --method=$method_choice.method --binSize=$method_choice.binSize
+            BinSpectra.R --input=$input --output=$output --method=$method_choice.method --binSize=$method_choice.binSize
         #else if $method_choice.method == "custom"
-            RTools/BinSpectra.R --input=$input --output=$output --method=$method_choice.method --pattern=$method_choice.pattern
+            BinSpectra.R --input=$input --output=$output --method=$method_choice.method --pattern=$method_choice.pattern
         #else
-            RTools/BinSpectra.R --input=$input --output=$output --method=$method_choice.method
+            BinSpectra.R --input=$input --output=$output --method=$method_choice.method
         #end if
     </command>
 
