@@ -21,8 +21,8 @@
         <data format="tabular" name="output" label="Imported NMR data"/>
     </outputs>
     <requirements>
-        <!--requirement type="package" version="0.5">nmrglue</requirement>
-        <requirement type="package">numpy</requirement>
+        <requirement type="package" version="0.5">nmrglue</requirement>
+        <!--requirement type="package">numpy</requirement>
         <requirement type="package">scipy</requirement>
         <requirement type="package">pandas</requirement-->
     </requirements>

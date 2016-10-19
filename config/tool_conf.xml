@@ -34,8 +34,9 @@
         <!-- NMR Metabolomics tools -->
 
   <section id="import_data" name="Import Data">
-      <tool file="NMRflow/Import/import_to_nmrML.xml" />
+      <!--tool file="NMRflow/Import/import_to_nmrML.xml" /-->
 	  <tool file="NMRflow/Import/import_to_csv.xml" />
+	  <tool file="NMRflow/Import/prepPattern.xml" />
   </section>
   <section id="procSpectra" name="Spectra Processing">
       <tool file="NMRflow/ProcessSpectra/slice.xml" />
@@ -106,7 +107,7 @@
     <tool file="stats/filtering.xml" />
     <tool file="filters/sorter.xml" />
     <tool file="filters/grep.xml" />
-    
+
     <label id="gff" text="GFF" />
     <tool file="filters/gff/extract_GFF_Features.xml" />
     <tool file="filters/gff/gff_filter_by_attribute.xml" />

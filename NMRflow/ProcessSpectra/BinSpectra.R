@@ -68,10 +68,6 @@ uniformBinning <- function(data, ppms, wndw){
 
 # -- Pattern file-based binning
 
-readPatternFile <- function(path){
-  pf <- read.table(path, sep="", header=F, skip=9, stringsAsFactors = F)
-  pf[,c(3,4,6)]
-}
 
 customBinning <- function(data, ppms, pattern){
   ppmInterval2Pos <- function(ppms, interval){
@@ -126,7 +122,7 @@ if('method' %in% names(args)){
       data = uniformBinning(data[,2:ncol(data)], data[,1], binSize)}
   } else if (args[['method']] == 'custom'){
     if('pattern' %in% names(args)){
-      patternFile = readPatternFile(args[['pattern']])
+      patternFile = read.table(args[['pattern']], sep="\t", header=F, stringsAsFactors = F)
       data = customBinning(data[,2:ncol(data)], data[,1], patternFile)
     } else {
       data = intelligentBinning(data)

@@ -15,9 +15,10 @@ if("--help" %in% args) {
       --input=path - input file path
       --output=path - output file path
       --retainPpm=0-4,6-10 - the intervals of ppm to retain
+      --remWater=Y - should the water signal (4.3-4.9 ppm) be removed
 
       Example:
-      ./SliceSpectra.R --input=inputFilePath --output=outputFilePath --reatainPpm=0-4,6.5-10\n\n")
+      ./SliceSpectra.R --input=inputFilePath --output=outputFilePath --reatainPpm=0-4,6.5-10 --remWater=Y\n\n")
   q(save="no")
 }
 
@@ -49,12 +50,12 @@ parsePpmIntervals <- function(ppmInts){
     intervals <- cbind(as.numeric(intervals[,1]),as.numeric(intervals[,2]))
     intervals <- do.call('rbind', lapply(1:nrow(intervals), function(i) { if(intervals[i,1] > intervals[i,2]) {rev(intervals[i,])} else {intervals[i,]}} ))
     # TODO merge and sort the intervals
-    #intervals <- mergeIntervals(intervals) #  Merge the overlapping intervals
     intervals <- intervals[order(intervals[,1]),]
   }
 
   intervals
 }
+
 # ---------------------------------------------------------
 
 # -- read data
@@ -63,8 +64,12 @@ data <- readNMRTabFile(args[['input']])
 # -- parse the intervals and subset the data
 intervals <- parsePpmIntervals(args[['retainPpm']])
 
+if(args[['remWater']]=='Y') data = data[!(data[,1] <= 4.9 & data[,1] >= 4.3),]
+
+
 if (!is.null(dim(intervals))){
-  data_ <- do.call('rbind', lapply(intervals, function(x) data[data[,1] >= min(x) & data[,1] <= max(x),]))
+  data_ = do.call('rbind', lapply(intervals, function(x) data[data[,1] >= min(x) & data[,1] <= max(x),]))
+  colnames(data_) = c('ppm', colnames(data)[2:ncol(data)])
 } else {
   data_ = data[data[,1] >= min(intervals) & data[,1] <= max(intervals),]
   colnames(data_) = c('ppm', colnames(data)[2:ncol(data)])
