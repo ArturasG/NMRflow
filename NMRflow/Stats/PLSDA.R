@@ -22,6 +22,7 @@ if("--help" %in% args) {
 }
 
 suppressMessages(require(pls))
+suppressMessages(require(ggplot2))
 # -------------------functions --------------------
 
 make.factorMat = function(fact){
@@ -33,6 +34,40 @@ make.factorMat = function(fact){
   out
 }
 
+PCA_Scores_Plot <- function(scores, groups, useLabels=F, labels = "", pcs=c(1,2), legendName="Groups", outdir){
+
+ if(useLabels & length(labels) != nrow(data)){
+  print("Warning: The labels not given or given incorrectly. Using rownames.")
+  labels <- rownames(data)
+  }
+
+  if (length(groups)!=nrow(scores$x)) {print(paste('groups length',length(groups),' while nrow', nrow(scores), sep="") ) }
+  pcdf<-data.frame(pc1=scores[,pcs[1]], pc2=scores[,pcs[2]])
+  if(useLabels) pcdf$labels<-labels
+
+  #perc_accounted <- ((pc$sdev)^2/sum((pc$sdev)^2)*100)[pcs]
+  perc_accounted <- c(0,0) #TODO: make this calculation correct for pls
+
+  label_offset_x <- 0.035 * (range(pcdf$pc1)[2] - range(pcdf$pc1)[1])
+  label_offset_y <- 0.035 * (range(pcdf$pc2)[2] - range(pcdf$pc2)[1])
+  groups = as.factor*(groups)
+  .e <- environment()
+  p <- ggplot(data=pcdf, aes(x=pc1, y=pc2), environment=.e) + geom_point(size=5, aes(fill=groups), colour='black', pch=21)
+
+  if(useLabels)  p <- p + geom_text(aes(x=pc1+label_offset_x, y=pc2+label_offset_y, label=labels))
+
+  p <- p+#guides(color=FALSE)+
+  theme_bw()+
+  guides(fill = guide_legend(title = legendName))+
+  xlab(paste("PC",pcs[1], " (", round(perc_accounted[1],2), "%)", sep=""))+
+  ylab(paste("PC",pcs[2], " (", round(perc_accounted[2],2), "%)", sep=""))+
+  ggtitle("PCA scores plot")
+
+  fileName <- paste('PC_',pcs[1],'-',pcs[2],'_scores.png', sep='')
+  filePath <- paste(outdir,'/',fileName, sep='')
+  ggsave(filePath, p)
+  fileName
+}
 # -------------------------------------------------
 
 
@@ -64,7 +99,7 @@ makeHTML = function(res){
             '<html>',
             '<head>',
             '</head>',
-            '<body','asldjfhaksldfh')
+            '<body>')
 
 
   html <- c(html,
