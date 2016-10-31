@@ -87,7 +87,7 @@ customBinning <- function(data, ppms, pattern){
   # find and modify duplicated bin labels
   dupes = duplicated(pattern[,3])
   if (any(dupes))
-    pattern[,3] = fixDupes(pattern[,3], dupes)
+    pattern[,3] = fixDupes(pattern[,3], which(dupes))
 
   data = data * 1.0
   #convert ppms to positions in the data matrix
@@ -95,7 +95,15 @@ customBinning <- function(data, ppms, pattern){
   binSize = abs(bins[,2] - bins[,1]) + 1
   dataInt = do.call('cbind', lapply(1:nrow(bins), function(i) apply(data[bins[i,1]:bins[i,2],], 2, sum)/binSize[i]))
   dataInt = as.data.frame(dataInt)
-  rownames(dataInt) = colnames(data)
+
+  dupes = duplicated(colnames(data))
+  if (any(dupes)){
+    tempNames = fixDupes(colnames(data), which(dupes))
+  } else {
+    tempNames = colnames(data)
+  }
+
+  rownames(dataInt) = tempNames
   names(dataInt) = pattern[,3]
   dataInt
 }
